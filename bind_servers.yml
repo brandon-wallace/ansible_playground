@@ -1,0 +1,41 @@
+---
+
+- hosts: ['192.168.12.34']
+  become: true
+  tasks:
+
+      - name: Update and upgrade dns servers
+        apt: 
+            update_cache: yes
+            upgrade: dist
+
+          - name: Install bind9
+            apt:
+                name:
+                  - bind9
+                  - dnsutils
+                  - bind9utils
+                state: latest
+
+      - name: Create /var/named/zones directory
+        file:
+            path: /var/named/zones
+            state: directory
+            owner: root
+            group: root
+            mode: 0755
+
+      - name: Copy bind9 configuration files for primary DNS server
+        tags: bind,dns
+        copy:
+            src: "{{ item.src }}"
+            dest: "{{ item.dest }}"
+            group: "{{ item.group }}"
+            owner: root
+            mode: 0644
+        with_items:
+            - { src: 'bind9', dest: '/etc/default/bind9', group: 'root' }
+            - { src: 'named.conf.options', dest: '/etc/bind/named.conf.options', group: 'bind' }
+            - { src: 'named.conf.local', dest: '/etc/bind/named.conf.local', group: 'bind' }
+            - { src: 'db.dev.invalid', dest: '/var/named/zones/db.dev.invalid', group: 'bind' }
+            - { src: 'db.192.168.12', dest: '/var/named/zones/db.192.168.12', group: 'bind' }
