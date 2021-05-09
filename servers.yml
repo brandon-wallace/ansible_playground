@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+      - name: Update repository cache on CentOS
+        tags: always
+        dnf: 
+            update_cache: yes
+        changed_when: false
+        when: ansible_distribution == "CentOS"
+
+      - name: Update repository cache on Debian/Ubuntu
+        tags: always
+        apt:
+            update_cache: yes
+        changed_when: false
+        when: ansible_distribution in ["Debian", "Ubuntu"]
