@@ -1,0 +1,46 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+      - name: Install updates on CentOS
+        tags: always
+        dnf: >
+            update_cache=yes
+            name=*
+            state=lastest
+        when: ansible_distribution == "CentOS"
+
+      - name: Install updates on Debian/Ubuntu
+        tags: always
+        apt:
+            update_cache: yes
+            update: dist
+        when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- hosts: all
+  become: true
+  tasks:
+
+      - name: Create user brandon
+        tags: always
+        user:
+            name: brandon
+            group: root
+
+      - name: Add SSH key for user brandon 
+        tags: always
+        authorized_key:
+            user: brandon
+            key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFpfQ5t+qXASqBIc5Jsvmeclpm9CA2MahzxB9wXzvyRn ansible key"
+            # state: absent
+             
+      - name: Add brandon to sudoers group
+        copy:
+            src: sudoers_brandon
+            dest: /etc/sudoers.d/brandon
+            group: root
+            owner: root
+            mode: 0440
+            validate: "/usr/sbin/visudo -cf %s"
