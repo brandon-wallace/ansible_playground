@@ -17,6 +17,14 @@
                   - bind9utils
                 state: latest
 
+      - name: Start and enable bind9
+        tags: bind,dns
+        service:
+            name: bind9
+            state: started
+            enabled: yes
+        when: ansible_distribution == "CentOS"
+
       - name: Create /var/named/zones directory
         file:
             path: /var/named/zones
