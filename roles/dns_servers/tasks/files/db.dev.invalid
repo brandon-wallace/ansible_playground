@@ -1,0 +1,25 @@
+$TTL    604800
+@       IN      SOA     dns1.dev.invalid. admin.dev.invalid. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+                                IN      NS      dns1.dev.invalid.
+                                IN      NS      dns2.dev.invalid.
+
+dns1.dev.invalid.               IN      A       192.168.12.34
+dns2.dev.invalid.               IN      A       192.168.12.35
+;
+rpi1.dev.invalid.               IN      A       192.168.12.34
+rpi2.dev.invalid.               IN      A       192.168.12.35
+;
+web1.dev.invalid.               IN      A       192.168.12.36
+;
+router1.dev.invalid.            IN      A       192.168.12.254
+;
+                                IN      MX      10 mail
+mail                            IN      CNAME   rpi3
+rpi3.dev.invalid.               IN      A       192.168.12.37       
+
