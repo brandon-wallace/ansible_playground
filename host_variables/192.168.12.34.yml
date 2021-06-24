@@ -1,4 +1,7 @@
-ansible_port:222 
-ansible_user:user1 
-apache_package:httpd 
-php_package:php
+ansible_port: 222 
+ansible_user: user1 
+apache_package: httpd 
+php_package: php
+allowed_users: "bruce bernard"
+denied_users: root
+ssh_template_file: ssh_config.j2
