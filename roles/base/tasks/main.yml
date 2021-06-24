@@ -1,0 +1,14 @@
+- name: Add ssh for user user1
+  authorized_key:
+      user: user1
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINqiYm4neTSi//IRjNBvlUKEgPD3SUWes5l2FKh42QxU My Ansible key"
+      # state: absent
+      
+- name: Add user1 to sudoers group
+  copy:
+        src: sudoers_user1
+        dest: /etc/sudoers.d/user1
+        group: root
+        owner: root
+        mode: 0440
+        validate: "/usr/sbin/visudo -cf %s"

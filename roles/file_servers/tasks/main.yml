@@ -1,0 +1,10 @@
+- name: Update and upgrade file servers
+  apt: 
+      update_cache: yes
+      upgrade: dist
+
+      - name: Install NFS server
+      apt:
+          name:
+          - nfs-kernel-server
+          state: latest

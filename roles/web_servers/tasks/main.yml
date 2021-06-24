@@ -1,0 +1,24 @@
+  - name: Install Apache2 and PHP
+    package:
+        name:
+          - "{{ apache_package }}"
+          - "{{ php_package }}"
+        state: latest
+        update_cache: yes
+    when: ansible_distribution == "CentOS"
+        
+  - name: Install Postgresql on Debian and Raspbian
+    apt:
+        name:
+          - "{{ postgresql_package }}"
+        state: latest
+        update_cache: yes
+    when: ansible_distribution in ["Debian", "Raspbian"]
+
+  - name: Install Postgresql on CentOS
+    dnf:
+        name:
+          - "{{ postgresql_package }}"
+        state: latest
+        update_cache: yes
+    when: ansible_distribution == "CentOS"
