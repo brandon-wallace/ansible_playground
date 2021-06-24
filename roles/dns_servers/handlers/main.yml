@@ -1,0 +1,15 @@
+- name: restart_bind
+  service:
+    name: bind9
+    state: restarted
+    
+    - name: Copy bind9 configuration files for primary DNS server
+      tags: bind,dns
+      copy:
+          src: "{{ item.src }}"
+          dest: "{{ item.dest }}"
+          group: "{{ item.group }}"
+          owner: root
+          mode: 0644
+      with_items:
+          - { src: 'files/db.dev.invalid', dest: '/var/named/zones/db.dev.invalid', group: 'bind' }

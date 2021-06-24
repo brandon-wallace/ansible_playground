@@ -1,0 +1,4 @@
+ansible_port:222 
+ansible_user:user1 
+apache_package:httpd 
+php_package:php

@@ -41,3 +41,12 @@
       - { src: 'files/named.conf.local', dest: '/etc/bind/named.conf.local', group: 'bind' }
       - { src: 'files/db.dev.invalid', dest: '/var/named/zones/db.dev.invalid', group: 'bind' }
       - { src: 'files/db.192.168.12', dest: '/var/named/zones/db.192.168.12', group: 'bind' }
+      
+- name: Change serial number in zone file
+  tags: bind,dns
+  lineinfile:
+      path: /var/named/zones/db.dev.invalid
+      regexp: 'Serial'
+      line:                               1         ; Serial
+  when: ansible_distribution == "CentOS"
+  notify: restart_bind
